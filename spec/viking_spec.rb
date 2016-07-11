@@ -81,8 +81,17 @@ describe Viking do
       vik.attack(viki)
     end
 
-    it ""
-    
+    it "calls damage_with_fists if no weapon" do
+      expect(vik).to receive(:damage_with_fists).and_return(10)
+      vik.attack(viki)
+    end
+
+    it "attacking with no weapon deals fist multiplier damage" do
+      fist = Fists.new
+      attack = fist.use
+      vik.attack(viki)
+      expect(viki.health).to be(100 - attack)
+    end
   end
 
 

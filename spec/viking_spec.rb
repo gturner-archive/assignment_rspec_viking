@@ -88,15 +88,35 @@ describe Viking do
 
     it "attacking with no weapon deals fist multiplier damage" do
       fist = Fists.new
-      attack = fist.use
+      attack = fist.use * vik.strength
       vik.attack(viki)
       expect(viki.health).to be(100 - attack)
     end
+
+    it "runs damage with weapon when a weapon is used" do
+      sven = Viking.new("sven", 100, 10, Weapon.new('weapon'))
+      expect(sven).to receive(:damage_with_weapon).and_return(10)
+      sven.attack(viki)
+    end
+
+    it "attacking with a weapon deals weapon multiplier damage" do
+      sven = Viking.new("sven", 100, 10, Weapon.new('weapon'))
+      attack = sven.weapon.use * sven.strength
+      sven.attack(viki)
+      expect(viki.health).to be(100 - attack)
+    end
+
+    it "uses fists if bow is weapon and has no arrows" do
+      sven = Viking.new("sven", 100, 10, Bow.new(0))
+      expect(sven).to receive(:damage_with_fists).and_return(2.5)
+      sven.attack(viki)
+
+    end
+
+    it "raises an error when a viking is killed" do
+      sven = Viking.new("sven", 1)
+      expect{vik.attack(sven)}.to raise_error(RuntimeError)
+
+    end
   end
-
-
-
-
-
-
 end

@@ -66,4 +66,28 @@ describe Viking do
       vik.receive_attack(10)
     end
   end
+
+  describe "#attack" do
+    let(:viki){Viking.new}
+
+    it "causes the recipients health to drop" do
+      vik.attack(viki)
+      expect(viki.health).to be <100
+    end
+
+    it "calls take_damage on target" do
+      allow(viki).to receive(:take_damage).with(10)
+      expect(viki).to receive(:take_damage)
+      vik.attack(viki)
+    end
+
+    it ""
+    
+  end
+
+
+
+
+
+
 end
